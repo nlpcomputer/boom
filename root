@@ -1,5 +1,0 @@
-mkdir root
-echo "hello" > root/sample.txt
-git add .
-git commit -m "Add images folder"
-git push
