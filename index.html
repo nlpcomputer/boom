@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scratch Card Effect</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #f30303;
+    }
+  
+    .game-message {
+      text-align: center;
+      font-size: 5vw;
+      color: #0919f8;
+      margin: 20px 0;
+      font-family: 'Arial', sans-serif;
+      text-shadow: 2px 2px #ffe6f0;
+    }
+  
+    .scratch-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* responsive magic */
+  gap: 20px;
+  padding: 20px;
+  justify-items: center;
+}
+
+/* Optional: cap it to max 5 columns */
+@media (min-width: 1200px) {
+  .scratch-card-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+  
+    .scratch-card {
+      background: #faf8f8;
+      position: relative;
+      width: 35vw;
+      max-width: 180px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 4px solid pink;
+      overflow: hidden;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+  
+    .scratch-card:hover {
+      transform: scale(1.05);
+    }
+  
+    canvas.scratch-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      z-index: 1;
+    }
+  
+    @media (max-width: 600px) {
+      .scratch-card {
+        width: 40vw;
+      }
+  
+      .game-message {
+        font-size: 6vw;
+      }
+    }
+  </style>
+  
+
+</head>
+<body>
+
+  <h2 class="game-message"> 👅 Play Game and Fun Baby 👅</h2>
+
+
+<div class="scratch-card-container" id="scratchContainer">
+  
+</div>
+
+
+<script>
+  const imageUrls = [
+
+
+    "https://scratchpositions.fun/positions/processed_Standing_Butterfly_.png",
+    "https://scratchpositions.fun/positions/processed_Sitting_Scissors_.png",
+    "https://scratchpositions.fun/positions/processed_Crabby_Bull_.png",
+    "https://scratchpositions.fun/positions/processed_Crossed_Butterfly_.png",
+    "https://scratchpositions.fun/positions/processed_Supported_Standing_Doggy_.png",
+    "https://scratchpositions.fun/positions/processed_Supported_Standing_Doggy_.png",
+    "https://scratchpositions.fun/positions/processed_Kneeling_Saint_.png",
+    "https://scratchpositions.fun/positions/processed_Mixed_Missionary_.png",
+    "https://scratchpositions.fun/positions/processed_Wrapped_Dancer_.png",
+    "https://scratchpositions.fun/positions/processed_Open_Missionary_.png",
+    "https://scratchpositions.fun/positions/processed_Mixed_Missionary_.png",
+    "https://scratchpositions.fun/positions/processed_Upright_Missionary_.png",
+    "https://scratchpositions.fun/positions/processed_Snared_Groundhog_.png",
+    "https://scratchpositions.fun/positions/processed_Butterfly_.png",
+    "https://scratchpositions.fun/positions/processed_Mixed_Hanger_.png",
+    "https://scratchpositions.fun/positions/processed_Wrapped_Missionary_.png",
+    "https://scratchpositions.fun/positions/processed_Lying_Rodeo_.png",
+    "https://scratchpositions.fun/positions/processed_Dancer_.png",
+    "https://scratchpositions.fun/positions/processed_Open_Missionary_.png",
+    "https://scratchpositions.fun/positions/processed_Bumper_Battle_.png",
+    "https://scratchpositions.fun/positions/processed_Wrapped_Spoon_.png",
+    "https://scratchpositions.fun/positions/processed_Supported_Standing_Doggy_.png",
+    "https://scratchpositions.fun/positions/processed_Pile_Driver_180_.png",
+    "https://scratchpositions.fun/positions/processed_Lazy_Rodeo_.png",
+    "https://scratchpositions.fun/positions/processed_Crabby_Lotus_.png",
+    "https://scratchpositions.fun/positions/processed_Mixed_Hanger_.png",
+    "https://scratchpositions.fun/positions/processed_Closed_Doggy_.png",
+    "https://scratchpositions.fun/positions/processed_Open_Groundhog_.png",
+    "https://scratchpositions.fun/positions/processed_Split_Butterfly_.png",
+    "https://sexinfo101.com/assets/images/positions/mobile/fellatio_02.png",
+    "https://allstarpositions.com/wp-content/uploads/2020/03/Valedictorian-Sex-Position.png",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqsDLo8pTDQeom72AypxbVXzdpgW9bpNOfFA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhjgjQzC5gw31NYHDWeT-WjgCuwYk_jGm9xg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhjgjQzC5gw31NYHDWeT-WjgCuwYk_jGm9xg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA4CrDt6LSUBcgvEAWimpnH5e_ZMb8tOVQ4A&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkLeM5LGYmD939aRF3rSwve-NFjnyiERNcOEihQhkwAEIByWJD4gqt11fT09bZ9wb_D5U&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0v9x3VBkISeNbG1CMSE8GLIk-7VibB9F8lHLqSsqMjZ4CyFVahd4ndWyDuxovDyQ3_NI&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMGX2iHr2J3rmVp1F-VlPjim-Vxtc9JT-m6wV-BtFjrBYympa1SxIyZKei711nHmO8-qM&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF5hToWvQFu23Szql3ZGEnRsp8z-gCRS5YP8tDnxcOJPSPzJm4utfIsXkHuIniwng6bL4&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1QLxj1he6worhCgjeVZYJOtoUnt3OF4i8rg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2K4FyHX_LUAJGwaCPSi0wmIUyW19aMj21aw&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaVnggxiYxLjl3QIIrAjGuTC0HnRqnmdfQuA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYpc-4FRaULppLnn_xnlUDC_5yjVyL8nXB9A&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8yTGD_BAe1CZ4gQkMqMDnyQSMLfJOD4RBxA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUWnkAPnJzcjxl6Bp9Q2NPzpxwa-5Ij5sjAw&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIbPlKs6uG9KnYLVx3JTIesBPip0doYV9GQA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc7rmBCt86PTTpF4z-iLnk7EDGH8J_J26149oaousK0w9itV8ubLHR4xBv4QPj_xqd0xc&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Cz1eqqjG2LUq7m-195QvZ7_I0dV1s49v8rre9TPei-B72FKDVhl9CfiSUK9FzjBMh0Y&usqp=CAU",
+    "https://scratchpositions.fun/positions/processed_Squatting_Bull_180_.png",
+    "https://scratchpositions.fun/positions/processed_Planted_Amazon_.png",
+    "https://scratchpositions.fun/positions/processed_Kneeling_Scissors_.png"
+  ];
+
+  const totalCards = 50;
+  const container = document.getElementById("scratchContainer");
+
+  for (let i = 0; i < totalCards; i++) {
+    const imgUrl = imageUrls[i % imageUrls.length];
+    const card = document.createElement("div");
+    card.className = "scratch-card";
+    card.style.backgroundImage = `url(${imgUrl})`;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "scratch-overlay";
+    canvas.width = 150;
+    canvas.height = 150;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    card.appendChild(canvas);
+    container.appendChild(card);
+
+    enableScratch(canvas, ctx);
+  }
+
+  function enableScratch(canvas, ctx) {
+    let isDrawing = false;
+
+    const getPosition = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: x - rect.left,
+        y: y - rect.top
+      };
+    };
+
+    const draw = (x, y) => {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath();
+      ctx.arc(x, y, 15, 0, Math.PI * 2, false);
+      ctx.fill();
+    };
+
+    canvas.addEventListener("mousedown", (e) => {
+      isDrawing = true;
+      const pos = getPosition(e);
+      draw(pos.x, pos.y);
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (!isDrawing) return;
+      const pos = getPosition(e);
+      draw(pos.x, pos.y);
+    });
+
+    canvas.addEventListener("mouseup", () => isDrawing = false);
+    canvas.addEventListener("mouseleave", () => isDrawing = false);
+
+    canvas.addEventListener("touchstart", (e) => {
+      isDrawing = true;
+      const pos = getPosition(e);
+      draw(pos.x, pos.y);
+      e.preventDefault();
+    });
+
+    canvas.addEventListener("touchmove", (e) => {
+      if (!isDrawing) return;
+      const pos = getPosition(e);
+      draw(pos.x, pos.y);
+      e.preventDefault();
+    });
+
+    canvas.addEventListener("touchend", () => isDrawing = false);
+  }
+</script>
+
+</body>
+</html>
+
+
+
+<!-- https://scratchpositions.fun/positions -->
