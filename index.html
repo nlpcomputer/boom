@@ -146,29 +146,39 @@
     "https://scratchpositions.fun/positions/processed_Kneeling_Scissors_.png"
   ];
 
-  const totalCards = 50;
-  const container = document.getElementById("scratchContainer");
+    const totalCards = 50;
+const container = document.getElementById("scratchContainer");
 
-  for (let i = 0; i < totalCards; i++) {
-    const imgUrl = imageUrls[i % imageUrls.length];
-    const card = document.createElement("div");
-    card.className = "scratch-card";
-    card.style.backgroundImage = `url(${imgUrl})`;
-
-    const canvas = document.createElement("canvas");
-    canvas.className = "scratch-overlay";
-    canvas.width = 150;
-    canvas.height = 150;
-
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    card.appendChild(canvas);
-    container.appendChild(card);
-
-    enableScratch(canvas, ctx);
+// Shuffle the image URLs randomly
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
+}
+shuffleArray(imageUrls);
+
+for (let i = 0; i < totalCards; i++) {
+  const imgUrl = imageUrls[i % imageUrls.length];
+  const card = document.createElement("div");
+  card.className = "scratch-card";
+  card.style.backgroundImage = `url(${imgUrl})`;
+
+  const canvas = document.createElement("canvas");
+  canvas.className = "scratch-overlay";
+  canvas.width = 150;
+  canvas.height = 150;
+
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  card.appendChild(canvas);
+  container.appendChild(card);
+
+  enableScratch(canvas, ctx);
+}
+
 
   function enableScratch(canvas, ctx) {
     let isDrawing = false;
